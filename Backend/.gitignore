@@ -1,0 +1,25 @@
+# Ignore the virtual environment
+venv/
+
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment variables and configuration files
+.env
+.env.local
+*.log
+
+# Ignore database files if using SQLite (for local testing)
+*.sqlite3
+*.db
+
+# Ignore VSCode and JetBrains IDE settings
+.vscode/
+.idea/
+
+# Ignore dependency lock files
+pip-log.txt
+pip-delete-this-directory.txt
