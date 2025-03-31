@@ -36,7 +36,7 @@ const Login = () => {
 
   return (
     <>
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
       <span className="inline-block items-center size-14 overflow-hidden rounded-full bg-gray-100">
         <svg fill="currentColor" viewBox="0 0 24 24" className="size-full text-gray-300">
@@ -91,7 +91,7 @@ const Login = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="flex w-[70%] justify-center rounded-lg bg-black px-3 py-2 text-sm/6 font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="cursor-pointer flex w-[70%] justify-center rounded-lg bg-black px-3 py-2 text-sm/6 font-semibold text-white shadow-sm hover:bg-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in
             </button>

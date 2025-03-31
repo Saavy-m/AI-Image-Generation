@@ -11,7 +11,7 @@ const ImageGenerator : React.FC = () => {
 
   const generateImage = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!prompt.trim()) return; // Prevent empty prompts
+    if (!prompt.trim()) return;
 
     setIsLoading(true);
     setImage(null);
@@ -29,7 +29,7 @@ const ImageGenerator : React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setImage(data.image_url); // S3 URL should be correctly displayed
+        setImage(data.image_url); // S3 URL
       } else {
         console.error("Error generating image:", response.statusText);
       }
@@ -64,7 +64,6 @@ const ImageGenerator : React.FC = () => {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-4 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
-        {/* Product details */}
         <div className="lg:max-w-lg lg:self-end">
           <div className="mt-4">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">AI Image Generator</h1>
@@ -99,10 +98,8 @@ const ImageGenerator : React.FC = () => {
           </section>
         </div>
 
-        {/* Product image */}
         <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
           {isLoading ? (
-            // Loader while fetching image
             <div className="w-full h-[70%] aspect-square flex items-center justify-center rounded-lg bg-gray-200">
               <svg className="animate-spin h-10 w-10 text-gray-500" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -110,17 +107,14 @@ const ImageGenerator : React.FC = () => {
               </svg>
             </div>
           ) : image ? (
-            // Display generated image
             <img src={image} alt="Generated" className="w-full rounded-lg object-cover aspect-square" />
           ) : (
-            // Placeholder if no image
             <div className="w-full h-[70%] aspect-square bg-gray-200 flex items-center justify-center rounded-lg">
               <p className="text-gray-500">No image generated yet</p>
             </div>
           )}
         </div>
 
-        {/* Product form */}
         <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
           <section aria-labelledby="options-heading">
             <h2 id="options-heading" className="sr-only">
@@ -132,14 +126,14 @@ const ImageGenerator : React.FC = () => {
                 <button
                   type="button"
                   onClick={generateImage}
-                  className="flex w-[60%] items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                  className="cursor-pointer flex w-[60%] items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
                  Generate Image
                 </button>
                 {image && (
                 <button
                   onClick={downloadImage}
-                  className="flex w-[40%] items-center justify-center rounded-md bg-black px-8 py-3 text-white font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="cursor-pointer flex w-[40%] items-center justify-center rounded-md bg-black px-8 py-3 text-white font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   Download
                 </button>
