@@ -83,17 +83,15 @@ const ListImages : React.FC = () => {
                   </div>
 
                   <div className="ml-4 flex flex-1 flex-col sm:ml-6">
-                    <div>
-                      <div className="flex flex-col justify-start items-start">
+                      <div className="flex flex-col justify-start items-start w-52 md:w-full">
                         <h4 className="text-sm">
                           <a href={image.image_url} target='blank' className="ml-4 mb-4 font-medium text-md text-gray-700 hover:text-gray-800">
                             {image.prompt}
                           </a>
                         </h4>
-                        <p className="ml-4 mt-4 md:w-full w-[70%] overflow-hidden text-xs underline font-medium text-gray-900">Image URL : {image.image_url}</p>
+                        <p className="ml-4 mt-4 md:w-max w-[70%] overflow-hidden text-xs underline font-medium text-gray-900">Image URL : {image.image_url}</p>
                       </div>
                       <p className="mt-1 ml-4 text-xs text-gray-500">Created On : {image.created_at}</p>
-                    </div>
 
                     <div className="mt-4 flex flex-1 items-end justify-between">
                       <div className="ml-4">
