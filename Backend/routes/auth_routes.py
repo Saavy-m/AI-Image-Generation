@@ -46,14 +46,14 @@ def login():
 
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT password FROM users WHERE email = %s", (email,))
+    cur.execute("SELECT id, password FROM users WHERE email = %s", (email,))
     user = cur.fetchone()
     cur.close()
     conn.close()
 
-    if user and bcrypt.checkpw(password, user[0].encode('utf-8')):
-        user_id = user[0]
+    if user and bcrypt.checkpw(password, user[1].encode("utf-8")):
+        user_id = user[0] 
         access_token = create_access_token(identity=email)
-        return jsonify({"access_token": access_token , "user_id": user_id}), 200
+        return jsonify({"access_token": access_token, "user_id": user_id}), 200
 
     return jsonify({"msg": "Invalid credentials"}), 401

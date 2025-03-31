@@ -1,32 +1,69 @@
 import React from 'react'
-// import { useState } from 'react'
+import { useState } from 'react'
 
-const product = {
-  name: 'Everyday Ruck Snack',
-  href: '#',
-  price: '$220',
-  description:
-    "Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.",
-  imageSrc: 'https://tailwindcss.com/plus-assets/img/ecommerce-images/product-page-04-featured-product-shot.jpg',
-  imageAlt: 'Model wearing light green backpack with black canvas straps and front zipper pouch.',
-  breadcrumbs: [
-    { id: 1, name: 'Travel', href: '#' },
-    { id: 2, name: 'Bags', href: '#' },
-  ],
-  sizes: [
-    { name: '18L', description: 'Perfect for a reasonable amount of snacks.' },
-    { name: '20L', description: 'Enough room for a serious amount of snacks.' },
-  ],
-}
-const reviews = { average: 4, totalCount: 1624 }
 
 
 const ImageGenerator : React.FC = () => {
 
+  const [image, setImage] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const generateImage = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!prompt.trim()) return; // Prevent empty prompts
+
+    setIsLoading(true);
+    setImage(null);
+    const user_id = localStorage.getItem("user_id");
+    const formData = { prompt, user_id: user_id };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/image/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      console.log("Response :", response);
+
+      if (response.ok) {
+        const data = await response.json();
+        setImage(data.image_url); // S3 URL should be correctly displayed
+      } else {
+        console.error("Error generating image:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }finally {
+      setIsLoading(false); 
+    }
+  };
+  
+  const downloadImage = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!image) return;
+    try {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "generated_image.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) {
+      console.error("Download error:", error);
+    }
+  };
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
+      <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 sm:py-4 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8">
         {/* Product details */}
         <div className="lg:max-w-lg lg:self-end">
           <div className="mt-4">
@@ -49,6 +86,8 @@ const ImageGenerator : React.FC = () => {
                 rows={5}
                 className="w-full min-h-32 resize-none p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 sm:text-sm md:text-base lg:text-lg"
                 placeholder="Type your prompt here..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
             ></textarea>
             {/* {error && <p className="text-red-500 text-sm mt-1">{error}</p>} */}
             </div>
@@ -62,7 +101,23 @@ const ImageGenerator : React.FC = () => {
 
         {/* Product image */}
         <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
-          <img alt={product.imageAlt} src={product.imageSrc} className="aspect-square w-full rounded-lg object-cover" />
+          {isLoading ? (
+            // Loader while fetching image
+            <div className="w-full h-[70%] aspect-square flex items-center justify-center rounded-lg bg-gray-200">
+              <svg className="animate-spin h-10 w-10 text-gray-500" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+            </div>
+          ) : image ? (
+            // Display generated image
+            <img src={image} alt="Generated" className="w-full rounded-lg object-cover aspect-square" />
+          ) : (
+            // Placeholder if no image
+            <div className="w-full h-[70%] aspect-square bg-gray-200 flex items-center justify-center rounded-lg">
+              <p className="text-gray-500">No image generated yet</p>
+            </div>
+          )}
         </div>
 
         {/* Product form */}
@@ -73,13 +128,22 @@ const ImageGenerator : React.FC = () => {
             </h2>
 
             <form>
-              <div className="mt-10">
+              <div className="mt-10 flex flex-row justify-between items-center gap-x-6">
                 <button
-                  type="submit"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                  type="button"
+                  onClick={generateImage}
+                  className="flex w-[60%] items-center justify-center rounded-md border border-transparent bg-black px-8 py-3 text-base font-medium text-white hover:bg-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
                 >
                  Generate Image
                 </button>
+                {image && (
+                <button
+                  onClick={downloadImage}
+                  className="flex w-[40%] items-center justify-center rounded-md bg-black px-8 py-3 text-white font-medium hover:bg-black focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                  Download
+                </button>
+              )}
               </div>
             </form>
           </section>

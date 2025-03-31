@@ -3,7 +3,7 @@ import { useNavigate , Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  // const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,9 +22,10 @@ const Login = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("user_id", data.user_id);
         navigate("/");
       } else {
-        setErrors(data.errors || {});
+        // setErrors(data.errors || {});
         alert(data.error || "Login failed");
       }
     } catch (error) {
