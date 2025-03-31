@@ -11,7 +11,7 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("http://127.0.0.1:5000/api/auth/register", {
+    const response = await fetch("https://ai-image-generation-pi2a.onrender.com/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

@@ -19,7 +19,7 @@ const ImageGenerator : React.FC = () => {
     const formData = { prompt, user_id: user_id };
 
     try {
-      const response = await fetch("http://localhost:5000/api/image/generate", {
+      const response = await fetch("https://ai-image-generation-pi2a.onrender.com/api/image/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

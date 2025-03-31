@@ -21,7 +21,7 @@ const ListImages : React.FC = () => {
             return;
           }
     
-          const response = await fetch(`http://localhost:5000/api/image/images/${parseInt(user_id)}`);
+          const response = await fetch(`https://ai-image-generation-pi2a.onrender.com/api/image/images/${parseInt(user_id)}`);
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
@@ -38,7 +38,7 @@ const ListImages : React.FC = () => {
       const deleteImageById = async (image_id : any) => {
         try {
           
-          const response = await fetch(`http://localhost:5000/api/image/image_delete/${parseInt(image_id)}` ,
+          const response = await fetch(`https://ai-image-generation-pi2a.onrender.com/api/image/image_delete/${parseInt(image_id)}` ,
           {
             headers: { "Content-Type": "application/json" },
             method:"DELETE"
