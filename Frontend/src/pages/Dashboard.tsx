@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ImageGenerator from "./ImageGenerator";
 import ListImages from "./ListImages";
+import { useNavigate } from "react-router-dom";
 
 const tabs = [
   { name: "Image Generator", key: "generator" },
@@ -13,7 +14,14 @@ function classNames(...classes : any) {
 }
 
 const Dashboard = () => {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("generator");
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id'); 
+    navigate('/login')
+  }
 
   return (
     <div className="border-b border-gray-200">
@@ -27,8 +35,11 @@ const Dashboard = () => {
           </div>
 
           <div className="flex flex-row gap-3">
-            <button className="text-sm px-7 py-2 rounded-lg border">
-              Logout
+            <button onClick={logout} className="text-sm py-2 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+            </svg>
+
             </button>
           </div>
         </div>

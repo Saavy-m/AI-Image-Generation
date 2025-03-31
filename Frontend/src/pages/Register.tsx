@@ -27,12 +27,12 @@ const Register = () => {
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          className="mx-auto h-10 w-auto"
-        />
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center justify-center">
+      <span className="inline-block items-center size-14 overflow-hidden rounded-full bg-gray-100">
+        <svg fill="currentColor" viewBox="0 0 24 24" className="size-full text-gray-300">
+          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      </span>
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
           Create new account
         </h2>

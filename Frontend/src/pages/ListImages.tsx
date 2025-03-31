@@ -90,7 +90,7 @@ const ListImages : React.FC = () => {
                             {image.prompt}
                           </a>
                         </h4>
-                        <p className="ml-4 mt-4 md:w-max w-[70%] overflow-auto text-xs underline font-medium text-gray-900">Image URL : {image.image_url}</p>
+                        <p className="ml-4 mt-4 md:w-full w-[70%] overflow-hidden text-xs underline font-medium text-gray-900">Image URL : {image.image_url}</p>
                       </div>
                       <p className="mt-1 ml-4 text-xs text-gray-500">Created On : {image.created_at}</p>
                     </div>
